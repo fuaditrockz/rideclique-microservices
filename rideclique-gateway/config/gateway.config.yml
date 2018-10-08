@@ -4,12 +4,20 @@ admin:
   port: 9876
   hostname: localhost
 apiEndpoints:
-  api:
+  auth:
     host: localhost
-    paths: '/ip'
+    paths:
+      - '/v1/auth/login'
+  users:
+    host: localhost
+    paths: 
+      - '/v1/users'
+      - '/v1/users/*'
 serviceEndpoints:
-  httpbin:
-    url: 'https://httpbin.org'
+  authService:
+    url: 'http://localhost:3001'
+  usersService:
+    url: 'http://localhost:3002'
 policies:
   - basic-auth
   - cors
@@ -20,13 +28,25 @@ policies:
   - proxy
   - rate-limit
 pipelines:
-  default:
+  - name: auth-service
     apiEndpoints:
-      - api
+      - auth
     policies:
-    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
-    # - key-auth:
+      - cors:
+        - action:
+             origin: '*'
       - proxy:
-          - action:
-              serviceEndpoint: httpbin 
-              changeOrigin: true
+        - action:
+             serviceEndpoint: authService
+             changeOrigin: true
+  - name: users-service
+    apiEndpoints:
+      - users
+    policies:
+      - cors:
+        - action:
+             origin: '*'
+      - proxy:
+        - action:
+             serviceEndpoint: usersService
+             changeOrigin: true

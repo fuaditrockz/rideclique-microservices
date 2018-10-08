@@ -1,0 +1,25 @@
+{
+  "name": "rideclique-users",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www",
+    "dev": "DEBUG=rideclique-users:* npm start"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.1",
+    "bluebird": "^3.5.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "dotenv": "^6.0.0",
+    "ejs": "~2.5.7",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "moment-timezone": "^0.5.21",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0",
+    "nesthydrationjs": "^1.0.5"
+  }
+}
