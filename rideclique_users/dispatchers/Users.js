@@ -71,5 +71,73 @@ exports.getUserById = id => {
 }
 
 exports.updateUserById = (id, data) => {
-  
+  return knex("users")
+      .where("id", id)
+      .update({
+        firstname: data.firstname,
+        lastname: data.lastname,
+        phone_number: data.phonenumber,
+        gender: data.gender,
+        bod: data.bod,
+        country_id: data.country,
+        region_id: data.region,
+        city_id: data.city
+      })
+      .returning("id")
+      .then(res => successResponseWithData(res,"Success Update User", 201))
+		  .catch(err => errorResponse(err, 500))
+}
+
+exports.registerNewUser = (data) => {
+  const CHECK_INPUT = item => {
+    return new Promise((resolve, reject) => {
+      item.firstname && item.lastname && item.email && item.username && item.password
+        ? resolve(item)
+        : reject(errorResponse(`Check Input => Internal Server Error: ${err}`, 500))
+    })
+  }
+
+  const knexResponse = email => {
+    return knex('users')
+      .where('email', email)
+      .returning('id')
+      .then(res => res)
+      .catch(err => errorResponse(`Search Email - Internal Server Error: ${err}`, 500))
+  }
+
+  const insertUserToDB = (response, data) => {
+    if (response.length) {
+      return errorResponse('Email is already exist.', 409)
+    } else {
+      const processInput = item => {
+        return new Promise((resolve, reject) => {
+          item ? resolve(item) : reject(errorResponse(`Check Input - Internal Server Error: ${err}`, 500))
+        }) 
+      }
+
+      const registerUser = (item, hashPassword) => {
+        return knex("users")
+          .insert({
+            firstname: item.firstname,
+            lastname: item.lastname,
+            email: item.email,
+            username: item.username,
+            password: hashPassword
+          })
+          .returning("id")
+          .then(id => successResponseWithData(id, "Register Success", 201))
+          .catch(err => errorResponse(`Insert User to DB - Internal server error: ${err}`, 500))   
+      }
+
+      return processInput(data)
+            .then(res => generatePassword(res))
+            .then(hashPassword => registerUser(data, hashPassword))
+            .catch(err => errorResponse(err, 500))
+    }
+  }
+
+  return CHECK_INPUT(data)
+      .then(res => knexResponse(res.email))
+      .then(res => insertUserToDB(res, data))
+      .catch(err => errorResponse(err, 500))
 }

@@ -13,6 +13,7 @@ apiEndpoints:
     paths: 
       - '/v1/users'
       - '/v1/users/*'
+      - '/v1/user/register'
 serviceEndpoints:
   authService:
     url: 'http://localhost:3001'
