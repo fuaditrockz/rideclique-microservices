@@ -14,6 +14,8 @@ apiEndpoints:
       - '/v1/users'
       - '/v1/users/*'
       - '/v1/user/register'
+      - '/v1/user/verification/*'
+      - '/v1/user/block_user/*'
 serviceEndpoints:
   authService:
     url: 'http://localhost:3001'
