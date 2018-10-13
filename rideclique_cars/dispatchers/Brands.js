@@ -21,18 +21,6 @@ const {
   generatePassword
 } = require('./helpers')
 
-exports.getAllCars = () => {
-  return knex('cars')
-    .select('*')
-    .then(res => res.map(r => ({
-      ...r, 
-      created_at: momentTimeZone(r.created_at).tz('Asia/Jakarta').format(),
-    })))
-    .then(res => NestHydrationJS.nest(res, cars_definition))
-    .then(res => successResponseWithData(res, "Success GET Cars", 200))
-    .catch(err => errorResponse(err, 500))
-}
-
 exports.getAllBrands = () => {
   return knex('brands')
     .select('*')

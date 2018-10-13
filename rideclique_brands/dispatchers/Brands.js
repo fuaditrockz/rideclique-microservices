@@ -13,25 +13,13 @@ const {
 
 // Definitions
 const {
-  cars_definition
-} = require('./definitions/cars')
+  brands_definition
+} = require('./definitions/brands')
 
 // Helpers
 const {
   generatePassword
 } = require('./helpers')
-
-exports.getAllCars = () => {
-  return knex('cars')
-    .select('*')
-    .then(res => res.map(r => ({
-      ...r, 
-      created_at: momentTimeZone(r.created_at).tz('Asia/Jakarta').format(),
-    })))
-    .then(res => NestHydrationJS.nest(res, cars_definition))
-    .then(res => successResponseWithData(res, "Success GET Cars", 200))
-    .catch(err => errorResponse(err, 500))
-}
 
 exports.getAllBrands = () => {
   return knex('brands')
@@ -40,7 +28,7 @@ exports.getAllBrands = () => {
       ...r, 
       created_at: momentTimeZone(r.created_at).tz('Asia/Jakarta').format(),
     })))
-    .then(res => NestHydrationJS.nest(res, cars_definition))
+    .then(res => NestHydrationJS.nest(res, brands_definition))
     .then(res => successResponseWithData(res, "Success GET Brands", 200))
     .catch(err => errorResponse(err, 500))
 }

@@ -20,6 +20,10 @@ apiEndpoints:
     host: localhost
     paths:
       - '/v1/cars'
+  brands:
+    host: localhost
+    paths:
+      - '/v1/brands'
 serviceEndpoints:
   authService:
     url: 'http://localhost:3001'
@@ -27,6 +31,8 @@ serviceEndpoints:
     url: 'http://localhost:3002'
   carsService:
     url: 'http://localhost:3003'
+  brandsService:
+    url: 'http://localhost:3004'
 policies:
   - basic-auth
   - cors
@@ -69,4 +75,15 @@ pipelines:
       - proxy:
         - action:
              serviceEndpoint: carsService
+             changeOrigin: true
+  - name: brands-service
+    apiEndpoints:
+      - brands
+    policies:
+      - cors:
+        - action:
+             origin: '*'
+      - proxy:
+        - action:
+             serviceEndpoint: brandsService
              changeOrigin: true
