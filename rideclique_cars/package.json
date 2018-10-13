@@ -1,10 +1,10 @@
 {
-  "name": "rideclique-users",
+  "name": "rideclique-cars",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "dev": "DEBUG=rideclique-users:* npm start"
+    "dev": "DEBUG=rideclique-cars:* npm start"
   },
   "dependencies": {
     "bluebird": "^3.5.2",

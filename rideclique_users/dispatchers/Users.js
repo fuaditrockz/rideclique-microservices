@@ -16,6 +16,12 @@ const {
   users_definition
 } = require('./definitions/users')
 
+// Helpers
+const {
+  checkEmail,
+  generatePassword
+} = require('./helpers')
+
 exports.getAllUsers = () => {
   return knex('users')
     .select('*')
@@ -88,7 +94,7 @@ exports.updateUserById = (id, data) => {
 		  .catch(err => errorResponse(err, 500))
 }
 
-exports.registerNewUser = (data) => {
+exports.registerNewUser = data => {
   const CHECK_INPUT = item => {
     return new Promise((resolve, reject) => {
       item.firstname && item.lastname && item.email && item.username && item.password
@@ -115,14 +121,16 @@ exports.registerNewUser = (data) => {
         }) 
       }
 
-      const registerUser = (item, hashPassword) => {
+      const registerUser = (item) => {
         return knex("users")
           .insert({
             firstname: item.firstname,
             lastname: item.lastname,
             email: item.email,
+            phone_number: item.phone_number,
             username: item.username,
-            password: hashPassword
+            password: item.password,
+            country_id: 93
           })
           .returning("id")
           .then(id => successResponseWithData(id, "Register Success", 201))
@@ -130,8 +138,8 @@ exports.registerNewUser = (data) => {
       }
 
       return processInput(data)
-            .then(res => generatePassword(res))
-            .then(hashPassword => registerUser(data, hashPassword))
+            /* .then(res => generatePassword(res)) */
+            .then(res => registerUser(res))
             .catch(err => errorResponse(err, 500))
     }
   }
@@ -140,4 +148,26 @@ exports.registerNewUser = (data) => {
       .then(res => knexResponse(res.email))
       .then(res => insertUserToDB(res, data))
       .catch(err => errorResponse(err, 500))
+}
+
+exports.updateVerification = (id, data) => {
+  return knex("users")
+      .where("id", id)
+      .update({
+        is_verification: data.is_verification
+      })
+      .returning("id")
+      .then(res => successResponseWithData(res, "Success Verification User", 201))
+		  .catch(err => errorResponse(err, 500))
+}
+
+exports.blockUser = (id, data) => {
+  return knex("users")
+      .where("id", id)
+      .update({
+        is_blocked: data.is_blocked
+      })
+      .returning("id")
+      .then(res => successResponseWithData(res, "Success Blocked User", 201))
+		  .catch(err => errorResponse(err, 500))
 }

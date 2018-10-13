@@ -7,7 +7,9 @@ const {
   getAllUsers,
   getUserById,
   updateUserById,
-  registerNewUser
+  registerNewUser,
+  updateVerification,
+  blockUser
 } = require('../../dispatchers/Users')
 
 router.get('/', function(req, res) {
@@ -29,9 +31,21 @@ router.put('/:id', function(req, res) {
 })
 
 router.post('/register', function(req, res) {
-  Promise.try(() => registerNewUser())
+  Promise.try(() => registerNewUser(req.body))
     .then(response => res.status(response.status).json(response))
-    .catch(err => console.log(`Failed to REGISTER_NEW_USER.`, err))
+    .catch(err => res.status(err.status).json(err))
+})
+
+router.put('/verification/:id', function(req, res) {
+  Promise.try(() => updateVerification(req.params.id, req.body))
+    .then(response => res.status(response.status).json(response))
+    .catch(err => res.status(err.status).json(err))
+})
+
+router.put('/block_user/:id', function(req, res) {
+  Promise.try(() => blockUser(req.params.id, req.body))
+    .then(response => res.status(response.status).json(response))
+    .catch(err => res.status(err.status).json(err))
 })
 
 module.exports = router;

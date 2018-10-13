@@ -16,11 +16,17 @@ apiEndpoints:
       - '/v1/user/register'
       - '/v1/user/verification/*'
       - '/v1/user/block_user/*'
+  cars:
+    host: localhost
+    paths:
+      - '/v1/cars'
 serviceEndpoints:
   authService:
     url: 'http://localhost:3001'
   usersService:
     url: 'http://localhost:3002'
+  carsService:
+    url: 'http://localhost:3003'
 policies:
   - basic-auth
   - cors
@@ -52,4 +58,15 @@ pipelines:
       - proxy:
         - action:
              serviceEndpoint: usersService
+             changeOrigin: true
+  - name: cars-service
+    apiEndpoints:
+      - cars
+    policies:
+      - cors:
+        - action:
+             origin: '*'
+      - proxy:
+        - action:
+             serviceEndpoint: carsService
              changeOrigin: true
