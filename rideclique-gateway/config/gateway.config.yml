@@ -13,9 +13,9 @@ apiEndpoints:
     paths: 
       - '/v1/users'
       - '/v1/users/*'
-      - '/v1/user/register'
-      - '/v1/user/verification/*'
-      - '/v1/user/block_user/*'
+      - '/v1/register'
+      - '/v1/verification/*'
+      - '/v1/block_user/*'
   cars:
     host: localhost
     paths:
@@ -24,6 +24,7 @@ apiEndpoints:
     host: localhost
     paths:
       - '/v1/brands'
+      - '/v1/add_brand'
 serviceEndpoints:
   authService:
     url: 'http://localhost:3001'
