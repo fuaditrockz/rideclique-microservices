@@ -11,8 +11,9 @@ exports.successResponseWithData = (response, message, status) => ({
 	data: response
 })
 
-exports.successResponseWithoutData = (message, status) => ({
+exports.successResponseWithoutData = (response, message, status) => ({
 	name: "success",
 	message: message,
-	status: status
+	status: status,
+	data: response
 })
