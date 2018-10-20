@@ -28,7 +28,10 @@ apiEndpoints:
     host: localhost
     paths:
       - '/v1/brands'
-      - '/v1/add_brand'
+      - '/v1/brands/*'
+      - '/v1/add_new_brand'
+      - '/v1/update_brand/*'
+      - '/v1/delete_brand/*'
 serviceEndpoints:
   authService:
     url: 'http://localhost:3001'
