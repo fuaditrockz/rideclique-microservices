@@ -10,7 +10,7 @@ apiEndpoints:
       - '/v1/auth/login'
   users:
     host: localhost
-    paths: 
+    paths:
       - '/v1/users'
       - '/v1/users/*'
       - '/v1/register'
@@ -20,6 +20,10 @@ apiEndpoints:
     host: localhost
     paths:
       - '/v1/cars'
+      - '/v1/cars/*'
+      - '/v1/add_new_car'
+      - '/v1/update_car/*'
+      - '/v1/delete_car/*'
   brands:
     host: localhost
     paths:
