@@ -32,6 +32,12 @@ apiEndpoints:
       - '/v1/add_new_brand'
       - '/v1/update_brand/*'
       - '/v1/delete_brand/*'
+  events:
+    host: localhost
+    paths:
+      - '/v1/events'
+      - '/v1/events/*'
+      - '/v1/add_new_event'
 serviceEndpoints:
   authService:
     url: 'http://localhost:3001'
@@ -41,6 +47,8 @@ serviceEndpoints:
     url: 'http://localhost:3003'
   brandsService:
     url: 'http://localhost:3004'
+  eventsService:
+    url: 'http://localhost:3005'
 policies:
   - basic-auth
   - cors
@@ -94,4 +102,15 @@ pipelines:
       - proxy:
         - action:
              serviceEndpoint: brandsService
+             changeOrigin: true
+  - name: events-service
+    apiEndpoints:
+      - events
+    policies:
+      - cors:
+        - action:
+             origin: '*'
+      - proxy:
+        - action:
+             serviceEndpoint: eventsService
              changeOrigin: true

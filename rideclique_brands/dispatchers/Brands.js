@@ -84,7 +84,7 @@ exports.addNewBrand = data => {
     })
   }
 
-  const insertCarToDB = item => {
+  const insertBrandToDB = item => {
     return knex('brands')
       .insert({
         name: item.name,
@@ -97,7 +97,7 @@ exports.addNewBrand = data => {
   }
 
   return CHECK_INPUT(data)
-      .then(res => insertCarToDB(res))
+      .then(res => insertBrandToDB(res))
       .catch(err => errorResponse(err, 500))
 }
 
@@ -110,6 +110,7 @@ exports.updateBrandById = (id, data) => {
     })
     .returning('id')
     .then(res => successResponseWithData(res, `Success Update Brand ID: ${id}`, 201))
+    .catch(err => errorResponse(`Failed Update Brand in DB - Internal server error: ${err}`, 500))
 }
 
 exports.deleteBrand = id => {

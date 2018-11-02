@@ -1,10 +1,10 @@
 {
-  "name": "rideclique-brands",
+  "name": "rideclique-events",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "dev": "DEBUG=rideclique-brands:* npm start"
+    "dev": "DEBUG=rideclique-events:* npm start"
   },
   "dependencies": {
     "bluebird": "^3.5.2",

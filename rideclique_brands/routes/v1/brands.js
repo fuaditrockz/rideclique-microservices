@@ -14,13 +14,13 @@ const {
 router.get('/brands', function(req, res, next) {
   Promise.try(() => getAllBrands())
     .then(response => res.status(response.status).json(response))
-    .catch(err => console.log("Failed to GET_ALL_USERS.", err))
+    .catch(err => console.log("Failed to GET_ALL_BRANDS.", err))
 });
 
 router.get('/brands/:id', function(req, res) {
   Promise.try(() => getBrandById(req.params.id))
     .then(response => res.status(response.status).json(response))
-    .catch(err => console.log(`Failed to GET_USER_BY_ID: ${req.params.id}`, err))
+    .catch(err => console.log(`Failed to GET_BRAND_BY_ID: ${req.params.id}`, err))
 })
 
 router.post('/add_new_brand', function(req, res) {
